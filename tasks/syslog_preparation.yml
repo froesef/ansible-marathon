@@ -1,0 +1,13 @@
+---
+- name: Create mesos log dir with user syslog
+  file: path={{marathon_log_location}} state=directory owner=syslog group=adm mode=755
+
+- set_fact: program_name="marathon"
+
+- name: Forward logs from mesos from syslog to log files
+  template: src=marathon-rsyslog.conf.j2 dest=/etc/rsyslog.d/marathon.conf owner=root group=root mode=644
+  register: rsyslog_marathon
+
+- name: Restart rsyslog if entry was changed
+  service: name=rsyslog state=restarted
+  when: rsyslog_marathon.changed

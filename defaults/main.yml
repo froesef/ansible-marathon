@@ -12,6 +12,8 @@ mesosphere_yum_repo: "http://repos.mesosphere.com/el/{{ os_version_major }}/noar
 
 marathon_hostname: "{{ inventory_hostname }}"
 marathon_port: 8080
+marathon_enable_syslog_logging: True
+marathon_log_location: "/var/log/mesos"
 marathon_env_java_opts: '-Xmx512m'
 marathon_env_vars:
   - "JAVA_OPTS={{ marathon_env_java_opts }}"
